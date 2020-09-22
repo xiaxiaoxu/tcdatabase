@@ -1,0 +1,5 @@
+setup.py
+tcdatabase.egg-info/PKG-INFO
+tcdatabase.egg-info/SOURCES.txt
+tcdatabase.egg-info/dependency_links.txt
+tcdatabase.egg-info/top_level.txt
