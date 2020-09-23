@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='tctools',
     version='0.1',
-    packages=find_packages('tctools'),
+    packages=find_packages(),
     package_data={
         'tctools':["*.py"]
     },
