@@ -1,7 +1,8 @@
 setup.py
-demo2/__init__.py
 tcdatabase/__init__.py
+tcdatabase/tcdatabase.py
 tcdatabase.egg-info/PKG-INFO
 tcdatabase.egg-info/SOURCES.txt
 tcdatabase.egg-info/dependency_links.txt
 tcdatabase.egg-info/top_level.txt
+tctest/__init__.py
