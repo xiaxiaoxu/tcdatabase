@@ -204,5 +204,5 @@ if __name__ == '__main__':
     val_obj = """{"id": 1, "name": "\\u641c\\u8d85\\u4eba\\u7535\\u5f71", "author": "\\u5434\\u8001\\u5e08",
                "create_time": "2020-07-02 02:42:57.602000", "update_time": "2020-07-04 02:42:57.602000",
                "belong_module_id": 1, "belong_project_id": 2, "user_id": 2}"""
-    # print(tcdatabase.insert("auto_test_testcase", val_obj))
+    # print(tcdb.insert("auto_test_testcase", val_obj))
     print(tcdb.update("auto_test_testcase", val_obj, "id=1"))
