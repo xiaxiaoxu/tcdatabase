@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c6f2e-de13-4f64-aae5-1cfe8afd009b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tctools/tcdatabase/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo2/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/tctest/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tcdatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/tcdatabase/tcdatabase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tcdatabase/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/tcdatabase/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/tcdatabase/tcdatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/tcdatabase/tcdatabase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tcdatabase/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/tctools/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tcdatabase/tcdatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/tctools/tcdatabase/tcdatabase.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,10 +40,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\极光\公共库封装\tctools\tctools\tcdb" />
       <recent name="D:\极光\公共库封装\tcdatabase\tcdatabase" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.tcdb">
     <configuration name="tcdatabase" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tcdatabase" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -64,8 +67,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="tcdb" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tcdatabase" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tctools/tcdb" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tctools/tcdb/tcdb.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.tcdb" />
         <item itemvalue="Python.tcdatabase" />
       </list>
     </recent_temporary>
@@ -83,6 +109,7 @@
       <workItem from="1600746250075" duration="1734000" />
       <workItem from="1600755202817" duration="16151000" />
       <workItem from="1600825651820" duration="943000" />
+      <workItem from="1600841982129" duration="3729000" />
     </task>
     <task id="LOCAL-00001" summary="add file">
       <created>1600825725802</created>
@@ -106,22 +133,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="445" y="1" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1600826660977" />
-    <state width="1478" height="255" key="GridCell.Tab.0.bottom" timestamp="1600777619831">
+    <state width="1294" height="264" key="GridCell.Tab.0.bottom" timestamp="1600842995365">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="255" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1600777619831" />
-    <state width="1478" height="255" key="GridCell.Tab.0.center" timestamp="1600777619831">
+    <state width="1294" height="264" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1600842995365" />
+    <state width="1294" height="264" key="GridCell.Tab.0.center" timestamp="1600842995365">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="255" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1600777619831" />
-    <state width="1478" height="255" key="GridCell.Tab.0.left" timestamp="1600777619831">
+    <state width="1294" height="264" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1600842995365" />
+    <state width="1294" height="264" key="GridCell.Tab.0.left" timestamp="1600842995364">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="255" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1600777619831" />
-    <state width="1478" height="255" key="GridCell.Tab.0.right" timestamp="1600777619831">
+    <state width="1294" height="264" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1600842995364" />
+    <state width="1294" height="264" key="GridCell.Tab.0.right" timestamp="1600842995365">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="255" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1600777619831" />
+    <state width="1294" height="264" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1600842995365" />
     <state width="1478" height="258" key="GridCell.Tab.1.bottom" timestamp="1600770446168">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -150,12 +177,17 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="521" y="232" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1600825652288" />
-    <state x="482" y="145" key="search.everywhere.popup" timestamp="1600764277054">
+    <state x="494" y="139" width="755" height="548" key="find.popup" timestamp="1600842198864">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="482" y="145" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1600764277054" />
+    <state x="494" y="139" width="755" height="548" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1600842198864" />
+    <state x="482" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1600843056075">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="482" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1600843056075" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/tcdatabase$tcdb.coverage" NAME="tcdb Coverage Results" MODIFIED="1600842964331" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tctools/tcdb" />
     <SUITE FILE_PATH="coverage/tcdatabase$tcdatabase.coverage" NAME="tcdatabase Coverage Results" MODIFIED="1600770498300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

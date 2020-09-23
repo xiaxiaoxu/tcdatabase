@@ -181,13 +181,13 @@ if __name__ == '__main__':
     # ['host', 'port', 'user', 'pw', 'db']
     host, port, user, password, database, = '127.0.0.1', 3306, 'root', 'root', 'testdatabase'
     tcdatabase = TcDatabase(host, port, user, password, database)
-    # print(dir(tcdatabase))
+    # print(dir(tctools))
     sql = "select * from auto_test_testcase;"
-    # print(tcdatabase.execute_sql(sql))
-    # print(tcdatabase.select_one("auto_test_testcase", "author='吴老师'"))
-    # print(tcdatabase.select_all("auto_test_testcase","author='吴老师'"))
+    # print(tctools.execute_sql(sql))
+    # print(tctools.select_one("auto_test_testcase", "author='吴老师'"))
+    # print(tctools.select_all("auto_test_testcase","author='吴老师'"))
     val_obj = """{"id": 1, "name": "\\u641c\\u8d85\\u4eba\\u7535\\u5f71", "author": "\\u5434\\u8001\\u5e08",
                "create_time": "2020-07-02 02:42:57.602000", "update_time": "2020-07-04 02:42:57.602000",
                "belong_module_id": 1, "belong_project_id": 2, "user_id": 2}"""
-    # print(tcdatabase.insert("auto_test_testcase", val_obj))
+    # print(tctools.insert("auto_test_testcase", val_obj))
     print(tcdatabase.update("auto_test_testcase", val_obj, "id=1"))

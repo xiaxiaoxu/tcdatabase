@@ -1,13 +1,14 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='tcdatabase',
+    name='tctools',
     version='0.1',
-    packages=find_packages(),
+    packages=find_packages('tctools'),
     package_data={
-        'tcdatabase':["*.py"]
+        'tctools':["*.py"]
     },
+    install_requires=['pymysql'],
     author = 'xiaxx',
     author_email='xiaxx@jiguang.cn',
-    url='None',
+    url='https://github.com/xiaxiaoxu/tctools.git',
 )
