@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f30c6f2e-de13-4f64-aae5-1cfe8afd009b" name="Default Changelist" comment="">
+    <list default="true" id="f30c6f2e-de13-4f64-aae5-1cfe8afd009b" name="Default Changelist" comment="add file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/tcdatabase/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/tcdatabase/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tcdatabase.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tcdatabase.egg-info/SOURCES.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +105,7 @@
       <workItem from="1600746250075" duration="1734000" />
       <workItem from="1600755202817" duration="16151000" />
       <workItem from="1600825651820" duration="943000" />
-      <workItem from="1600841982129" duration="3971000" />
+      <workItem from="1600841982129" duration="4291000" />
     </task>
     <task id="LOCAL-00001" summary="add file">
       <created>1600825725802</created>
@@ -121,7 +121,14 @@
       <option name="project" value="LOCAL" />
       <updated>1600846287849</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add file">
+      <created>1600846538592</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1600846538592</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,10 +139,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="add file" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="445" y="1" key="CommitChangelistDialog2" timestamp="1600846287380">
+    <state x="525" y="17" key="CommitChangelistDialog2" timestamp="1600846962785">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="445" y="1" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1600846287380" />
+    <state x="525" y="17" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1600846962785" />
     <state width="1294" height="264" key="GridCell.Tab.0.bottom" timestamp="1600842995365">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -172,10 +179,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="272" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1600755387149" />
-    <state x="421" y="140" key="Vcs.Push.Dialog.v2" timestamp="1600825762686">
+    <state x="421" y="140" key="Vcs.Push.Dialog.v2" timestamp="1600846894765">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="421" y="140" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1600825762686" />
+    <state x="421" y="140" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1600846894765" />
     <state x="521" y="232" key="com.intellij.ide.util.TipDialog" timestamp="1600825652288">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
