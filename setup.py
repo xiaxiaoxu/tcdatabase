@@ -8,7 +8,7 @@ setup(
         'tctools':["*.py"]
     },
     install_requires=['pymysql'],
-    author = 'xiaxx',
-    author_email='xiaxx@jiguang.cn',
-    url='https://github.com/xiaxiaoxu/tctools.git',
+    author = '__author__',
+    author_email='__author__@jiguang.cn',
+    url='https://github.com/jipush-qa-group/tctools.git',
 )
