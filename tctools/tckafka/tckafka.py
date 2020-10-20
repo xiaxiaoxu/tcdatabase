@@ -25,10 +25,12 @@ class TcKafka(object):
     测试kafka常用api
     测试topic：xiaxxtopic、xiaxxtopic1
     """
+    connected = False
 
     def __init__(self, host=""):
         self.host = host
         self.client = KafkaClient(hosts=self.host)
+        self.connected = True
 
     # 获取kafka实例节点
     def get_brokers(self):
@@ -52,12 +54,13 @@ class TcKafka(object):
                 print("error: %s" % e)
                 if re.search("41", str(e)):
                     print("该broker 不是 leader，交由下一个broker创建")
+                    return False
                 elif re.search("7", str(e)):
                     print("创建完成")
-                    break
+                    return True
                 elif re.search("36", str(e)):
                     print("topic 已存在")
-                    break
+                    return True
                 else:
                     raise e
 
@@ -82,7 +85,7 @@ class TcKafka(object):
             print("error occurs in get_topic_available_offset, error: %s" % e)
 
     # 生产者发送消息
-    def procude_message(self, topicName, message):
+    def produce_message(self, topicName, message):
 
         topic = self.get_topics()[topicName]
         try:
@@ -91,11 +94,13 @@ class TcKafka(object):
             print("start to procude message...")
             p.produce(message.encode())
             print("procude message successfully.")
+            return True
         except Exception as e:
             print("error occurs in procude_message, error: %s" % e)
+            return False
 
 
-    def procude_message_to_partition(self, topic, message, partision_num=0):
+    def produce_message_to_partition(self, topic, message, partision_num=0):
         """
         往指定分区号写消息，如果要控制打印到某个分区，
         需要在获取生产者的时候指定选区函数，
@@ -120,8 +125,10 @@ class TcKafka(object):
         print("message to produce: %s" % message)
         try:
             p.produce(message.encode(), partition_key=b"partition_key_0")
+            return True
         except Exception as e:
             print("error occurs in procude_message_to_partition, error: %s" % e)
+            return False
     #
     # def async_produce_message(self, topic):
     #     """
@@ -191,14 +198,18 @@ class TcKafka(object):
         consumer.reset_offsets([(partition_to_consume, int(last_offset) - 2)])  # 设置offset为最后一个位置
         offset = consumer.held_offsets  # 重置offset后的消费者分区offet位置
         print("重置offset后消费者分区offset位置{}".format(offset))
+        msgList = []
         # 从指定偏移位置进行消费消息，直到最后
         try:
             msg = consumer.consume()
             print("消费的消息是 :{}".format(msg.value.decode()))
             offset = consumer.held_offsets
             print("{}, 当前消费者分区offset位置{}".format(msg.value.decode(), offset))
+            msgList.append(msg.value.decode())
+            return msgList
         except Exception as e:
             print("error occurs in consume_from_offset_as_simple, error: %s" % e)
+
 
     def consume_from_offset_as_simple(self, topicName, partitionNum=0, offsetNum=0):
         '''
@@ -225,7 +236,7 @@ class TcKafka(object):
         # 指定分区
         consumer.reset_offsets([(partition_to_consume, offsetNum)])  # 设置offset
         offset = consumer.held_offsets  # 重置offset后的消费者分区offet位置
-        print("当前消费者分区offset情况{}".format(offset))
+        print("重置偏移后当前消费者分区offset情况{}".format(offset))
         # 从指定偏移位置进行消费消息，直到最后
         try:
             # 获得指定偏移量往后所有消息的数量
@@ -237,8 +248,10 @@ class TcKafka(object):
                 print("消费的消息是 :{}".format(msg.value.decode()))
                 offset = consumer.held_offsets
                 print("{}, 当前消费者分区offset位置{}".format(msg.value.decode(), offset))
+            return True
         except Exception as e:
             print("error occurs in consume_from_offset_as_simple, error: %s" % e)
+            return False
 
     def consume_n_messages_as_balance(self, topicName, num=0):
         """
@@ -263,6 +276,7 @@ class TcKafka(object):
         print("latest_available_offset: %s" % latest_available_offset)
         current_offset = consumer.held_offsets[0]  # 因为helo_offsets的值是字典{0: 0}，所以取key为0的值就是当前位移
         print("current_offset: %s" % current_offset)
+        msgList = []
         for i in range(int(num)):
             if current_offset + 2 <= latest_available_offset:
                 try:
@@ -270,8 +284,10 @@ class TcKafka(object):
                     print("消费的消息是 :{}".format(msg.value.decode()))
                     offset = consumer.held_offsets
                     print("{}, 当前消费者分区offset情况{}".format(msg.value.decode(), offset))
+                    msgList.append(msg.value.decode())
                 except Exception as e:
                     print("error occurs in consume_as_balance, error: {} ".format(e))
+        return msgList
 
     def consume_one_message_as_balance(self, topicName):
         """
@@ -294,13 +310,15 @@ class TcKafka(object):
         print("latest_available_offset: %s" % latest_available_offset)
         current_offset = consumer.held_offsets[0]  # 因为helo_offsets的值是字典{0: 0}，所以取key为0的值就是当前位移
         print("current_offset: %s" % current_offset)
-
+        msgList = []
         if current_offset + 2 <= latest_available_offset:
             try:
                 msg = consumer.consume()
                 print("消费的消息是 :{}".format(msg.value.decode()))
                 offset = consumer.held_offsets
                 print("{}, 当前消费者分区offset情况{}".format(msg.value.decode(), offset))
+                msgList.append(msg.value.decode())
+                return msgList
             except Exception as e:
                 print("error occurs in consume_as_balance, error: {} ".format(e))
 
@@ -322,6 +340,7 @@ class TcKafka(object):
         print("最近位移数: %s" % latest_available_offset)
         offset = consumer.held_offsets
         print("当前消费者分区offset情况{}".format(offset))
+        msgList = []
         while True:
             current_offset = consumer.held_offsets[0]  # 因为helo_offsets的值是字典{0: 0}，所以取key为0的值就是当前位移
             print("current_offset: %s" % current_offset)
@@ -331,38 +350,41 @@ class TcKafka(object):
                     print("消费的消息是 :{}".format(msg.value.decode()))
                     offset = consumer.held_offsets
                     print("{}, 当前消费者分区offset情况{}".format(msg.value.decode(), offset))
+                    msgList.append(msg.value.decode())
                 except Exception as e:
                     print("error occurs in consume_as_balance, error: {} ".format(e))
             else:
                 break
+        return msgList
 
 
 if __name__ == '__main__':
     # host = "172.17.9.151:9092"
     host = "172.17.9.155:9092"
     kfkInstance = TcKafka(host)
-    topic = 'xiaxxtopic6'
+    topic = 'xiaxxtopic122'
     # 测试获取所有topic
     print(kfkInstance.get_topics())
     # 测试创建topic
-    kfkInstance.create_topic(topic)
-    # 测试获取topic的分区
-    kfkInstance.get_topic_partitions(topic)
-    # 测试查看topic可用的偏移量
-    kfkInstance.get_topic_available_offset(topic)
-    # 测试生产者发送消息
-    endStr = time.strftime("%Y-%m-%d-%H-%M")
-    kfkInstance.procude_message(topic, "test message%s" % endStr)
-    # 测试指定分区写消息
-    kfkInstance.procude_message_to_partition(topic, "test message1738", 0)
-    # 以simple方式从0号分区的某个位移开始消费消息
-    kfkInstance.consume_from_offset_as_simple(topic,0,29)
-    # 以simple方式消费分区号为0的最后一条消息
-    kfkInstance.consume_last_message_as_simple(topic,0)
-    # 测试以balance方式消费消息
-    kfkInstance.consume_all_message_as_balance(topic)
-    # 以balance方式消费一次消条
-    kfkInstance.consume_one_message_as_balance(topic)
-    # 测试以balance方式消费n条消息
-    kfkInstance.consume_n_messages_as_balance(topic, 30)
+    result = kfkInstance.create_topic(topic)
+    print("result: %s" % result)
+    # # 测试获取topic的分区
+    # kfkInstance.get_topic_partitions(topic)
+    # # 测试查看topic可用的偏移量
+    # kfkInstance.get_topic_available_offset(topic)
+    # # 测试生产者发送消息
+    # endStr = time.strftime("%Y-%m-%d-%H-%M")
+    # kfkInstance.procude_message(topic, "test message%s" % endStr)
+    # # 测试指定分区写消息
+    # kfkInstance.procude_message_to_partition(topic, "test message1738", 0)
+    # # 以simple方式从0号分区的某个位移开始消费消息
+    # kfkInstance.consume_from_offset_as_simple(topic,0,29)
+    # # 以simple方式消费分区号为0的最后一条消息
+    # kfkInstance.consume_last_message_as_simple(topic,0)
+    # # 测试以balance方式消费消息
+    # kfkInstance.consume_all_message_as_balance(topic)
+    # # 以balance方式消费一次消条
+    # kfkInstance.consume_one_message_as_balance(topic)
+    # # 测试以balance方式消费n条消息
+    # kfkInstance.consume_n_messages_as_balance(topic, 30)
 
