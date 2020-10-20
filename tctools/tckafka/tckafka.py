@@ -71,8 +71,8 @@ class TcKafka(object):
         except Exception as e:
             print("error occurs in get _topic_partition, error: %s" % e)
 
-    # 获取gokc的可用=可用偏移量
-    def get_topic_available_offset(self,topicName):
+    # 获取topic的可用偏移量
+    def get_topic_available_offset(self, topicName):
         topic = self.get_topics()[topicName]
         try:
             earliest_offset = topic.earliest_available_offsets()
@@ -82,7 +82,7 @@ class TcKafka(object):
             print("error occurs in get_topic_available_offset, error: %s" % e)
 
     # 生产者发送消息
-    def procude_message(self,topicName, message):
+    def procude_message(self, topicName, message):
 
         topic = self.get_topics()[topicName]
         try:
@@ -93,31 +93,6 @@ class TcKafka(object):
             print("procude message successfully.")
         except Exception as e:
             print("error occurs in procude_message, error: %s" % e)
-
-    #
-    # def get_producer_partition(self, topicName):
-    #     """
-    #     生产者分区查看，主要查看生产消息时offset的变化
-    #     :return:
-    #     """
-    #     topic = self.get_topics()[topicName]
-    #     partitions = topic.partitions
-    #     print(u"查看所有分区 {}".format(partitions))
-    #
-    #     earliest_offset = topic.earliest_available_offsets()
-    #     print(u"获取最早可用的offset {}".format(earliest_offset))
-    #
-    #     # 生产消息之前看看offset
-    #     last_offset = topic.latest_available_offsets()
-    #     print(u"最近可用offset {}".format(last_offset))
-    #
-    #     # 生产者发送消息
-    #     p = topic.get_producer(sync=True)
-    #     p.produce(str(time.time()).encode())
-    #
-    #     # 查看offset的变化
-    #     last_offset = topic.latest_available_offsets()
-    #     print(u"最近可用offset {}".format(last_offset))
 
 
     def procude_message_to_partition(self, topic, message, partision_num=0):
@@ -147,51 +122,50 @@ class TcKafka(object):
             p.produce(message.encode(), partition_key=b"partition_key_0")
         except Exception as e:
             print("error occurs in procude_message_to_partition, error: %s" % e)
+    #
+    # def async_produce_message(self, topic):
+    #     """
+    #     异步生产消息，消息会被推到一个队列里面，
+    #     另外一个线程会在队列中消息大小满足一个阈值（min_queued_messages）
+    #     或到达一段时间（linger_ms）后统一发送,默认5s
+    #     :return:
+    #     """
+    #     topic = self.client.topics[topic.encode()]
+    #     last_offset = topic.latest_available_offsets()
+    #     print("最近的偏移量 offset {}".format(last_offset))
+    #
+    #     # 记录最初的偏移量
+    #     old_offset = last_offset[0].offset[0]
+    #     p = topic.get_producer(sync=False, partitioner=lambda pid, key: pid[0])
+    #     p.produce(str(time.time()).encode())
+    #     s_time = time.time()
+    #     while True:
+    #         last_offset = topic.latest_available_offsets()
+    #         print("最近可用offset {}".format(last_offset))
+    #         if last_offset[0].offset[0] != old_offset:
+    #             e_time = time.time()
+    #             print('cost time {}'.format(e_time - s_time))
+    #             break
+    #         time.sleep(1)
 
-    def async_produce_message(self, topic):
-        """
-        异步生产消息，消息会被推到一个队列里面，
-        另外一个线程会在队列中消息大小满足一个阈值（min_queued_messages）
-        或到达一段时间（linger_ms）后统一发送,默认5s
-        :return:
-        """
-        topic = self.client.topics[topic.encode()]
-        last_offset = topic.latest_available_offsets()
-        print("最近的偏移量 offset {}".format(last_offset))
-
-        # 记录最初的偏移量
-        old_offset = last_offset[0].offset[0]
-        p = topic.get_producer(sync=False, partitioner=lambda pid, key: pid[0])
-        p.produce(str(time.time()).encode())
-        s_time = time.time()
-        while True:
-            last_offset = topic.latest_available_offsets()
-            print("最近可用offset {}".format(last_offset))
-            if last_offset[0].offset[0] != old_offset:
-                e_time = time.time()
-                print('cost time {}'.format(e_time - s_time))
-                break
-            time.sleep(1)
-
-
-    def get_produce_message_report(self, topicName):
-        '''
-            pykafka消费者分为simple和balanced两种:
-            查看异步发送消报告,默认会等待5s后才能获得报告
-        :param topic:
-        :return:
-        '''
-        topic = self.client.topics[topicName.encode()]
-        last_offset = topic.latest_available_offsets()
-        print("最近的偏移量 offset {}".format(last_offset))
-        p = topic.get_producer(sync=False, delivery_reports=True, partitioner=lambda pid, key: pid[0])
-        p.produce(str(time.time()).encode())
-        s_time = time.time()
-        delivery_report = p.get_delivery_report()
-        e_time = time.time()
-        print('等待{}s, 递交报告{}'.format(e_time - s_time, delivery_report))
-        last_offset = topic.latest_available_offsets()
-        print("最近的偏移量 offset {}".format(last_offset))
+    # def get_produce_message_report(self, topicName):
+    #     '''
+    #         pykafka消费者分为simple和balanced两种:
+    #         查看异步发送消报告,默认会等待5s后才能获得报告
+    #     :param topic:
+    #     :return:
+    #     '''
+    #     topic = self.client.topics[topicName.encode()]
+    #     last_offset = topic.latest_available_offsets()
+    #     print("最近的偏移量 offset {}".format(last_offset))
+    #     p = topic.get_producer(sync=False, delivery_reports=True, partitioner=lambda pid, key: pid[0])
+    #     p.produce(str(time.time()).encode())
+    #     s_time = time.time()
+    #     delivery_report = p.get_delivery_report()
+    #     e_time = time.time()
+    #     print('等待{}s, 递交报告{}'.format(e_time - s_time, delivery_report))
+    #     last_offset = topic.latest_available_offsets()
+    #     print("最近的偏移量 offset {}".format(last_offset))
 
     def consume_last_message_as_simple(self, topicName, partitionNum=0):
         """
@@ -214,7 +188,7 @@ class TcKafka(object):
         offset = consumer.held_offsets  # 当前消费者分区offet位置
         print("消费者分区当前offset位置{}".format(offset))  # 消费者拥有的分区offset的情况
         # 设置分区和offset为最后一个位置，需注意这里的最后一个消息的offset应为last_offset的值-2，实际测试得出的结论
-        consumer.reset_offsets([(partition_to_consume, int(last_offset)-2)])  # 设置offset为最后一个位置
+        consumer.reset_offsets([(partition_to_consume, int(last_offset) - 2)])  # 设置offset为最后一个位置
         offset = consumer.held_offsets  # 重置offset后的消费者分区offet位置
         print("重置offset后消费者分区offset位置{}".format(offset))
         # 从指定偏移位置进行消费消息，直到最后
@@ -226,7 +200,7 @@ class TcKafka(object):
         except Exception as e:
             print("error occurs in consume_from_offset_as_simple, error: %s" % e)
 
-    def consume_from_offset_as_simple(self, topicName, partitionNum = 0, offsetNum=0):
+    def consume_from_offset_as_simple(self, topicName, partitionNum=0, offsetNum=0):
         '''
             以simple方式在指定分区中从指定偏移位置消费消息
             pykafka消费者分为simple和balanced两种:
@@ -246,13 +220,13 @@ class TcKafka(object):
         print("分区下最新偏移量位置：:%s" % last_offset)
         # 根据指定分区获取消费对象consumer
         consumer = topic.get_simple_consumer("simple_consumer_group", partitions=[partition_to_consume])  # 选择一个分区进行消费
-        offset = consumer.held_offsets # 当前消费者分区offet位置
+        offset = consumer.held_offsets  # 当前消费者分区offet位置
         print("当前消费者分区offset位置{}".format(offset))  # 消费者拥有的分区offset的情况
         # 指定分区
         consumer.reset_offsets([(partition_to_consume, offsetNum)])  # 设置offset
-        offset = consumer.held_offsets # 重置offset后的消费者分区offet位置
+        offset = consumer.held_offsets  # 重置offset后的消费者分区offet位置
         print("当前消费者分区offset情况{}".format(offset))
-        #从指定偏移位置进行消费消息，直到最后
+        # 从指定偏移位置进行消费消息，直到最后
         try:
             # 获得指定偏移量往后所有消息的数量
             msgLen = int(last_offset) - int(offsetNum)
@@ -266,10 +240,11 @@ class TcKafka(object):
         except Exception as e:
             print("error occurs in consume_from_offset_as_simple, error: %s" % e)
 
-
-    def consume_as_balance(self, topicName, offsetNum=0):
+    def consume_n_messages_as_balance(self, topicName, num=0):
         """
-        使用balance consumer去消费kafka
+
+        :param topicName:
+        :param num: 消费次数，默认为1
         :return:
         """
         topic = self.get_topics()[topicName]
@@ -280,43 +255,114 @@ class TcKafka(object):
         earliest_offsets = topic.earliest_available_offsets()
         print("最早可用offset {}".format(earliest_offsets))
         last_offset = topic.latest_available_offsets()
-        print("last_offset: %s" % last_offset)
-        # last_offset = topic.latest_available_offsets()[int(partitionNum)][0][0]
         print("最近可用offset {}".format(last_offset))
-        print("消息数量：%s"% last_offset)
+        print("最新位移数：%s" % last_offset[0][0][0])
         offset = consumer.held_offsets
         print("当前消费者分区offset情况{}".format(offset))
+        latest_available_offset = topic.latest_available_offsets()[0][0][0]
+        print("latest_available_offset: %s" % latest_available_offset)
+        current_offset = consumer.held_offsets[0]  # 因为helo_offsets的值是字典{0: 0}，所以取key为0的值就是当前位移
+        print("current_offset: %s" % current_offset)
+        for i in range(int(num)):
+            if current_offset + 2 <= latest_available_offset:
+                try:
+                    msg = consumer.consume()
+                    print("消费的消息是 :{}".format(msg.value.decode()))
+                    offset = consumer.held_offsets
+                    print("{}, 当前消费者分区offset情况{}".format(msg.value.decode(), offset))
+                except Exception as e:
+                    print("error occurs in consume_as_balance, error: {} ".format(e))
 
-        for i in range(3):
-            msg = consumer.consume()
-            print("消费的消息是 :{}".format(msg.value.decode()))
-            offset = consumer.held_offsets
-            print("{}, 当前消费者分区offset情况{}".format(msg.value.decode(), offset))
+    def consume_one_message_as_balance(self, topicName):
+        """
+                使用balance consumer去消费kafka，因为分区是自动指定，无法指定偏移量进行消费
+                :return:
+                """
+        topic = self.get_topics()[topicName]
+        # managed=True 设置后，使用新式reblance分区方法，不需要使用zk，而False是通过zk来实现reblance的需要使用zk
+        consumer = topic.get_balanced_consumer(b"consumer_group_balanced", managed=True)
+        partitions = topic.partitions
+        print("分区 {}".format(partitions))
+        earliest_offsets = topic.earliest_available_offsets()
+        print("最早可用offset {}".format(earliest_offsets))
+        last_offset = topic.latest_available_offsets()
+        print("最近可用offset {}".format(last_offset))
+        print("最新位移数：%s" % last_offset[0][0][0])
+        offset = consumer.held_offsets
+        print("当前消费者分区offset情况{}".format(offset))
+        latest_available_offset = topic.latest_available_offsets()[0][0][0]
+        print("latest_available_offset: %s" % latest_available_offset)
+        current_offset = consumer.held_offsets[0]  # 因为helo_offsets的值是字典{0: 0}，所以取key为0的值就是当前位移
+        print("current_offset: %s" % current_offset)
+
+        if current_offset + 2 <= latest_available_offset:
+            try:
+                msg = consumer.consume()
+                print("消费的消息是 :{}".format(msg.value.decode()))
+                offset = consumer.held_offsets
+                print("{}, 当前消费者分区offset情况{}".format(msg.value.decode(), offset))
+            except Exception as e:
+                print("error occurs in consume_as_balance, error: {} ".format(e))
+
+    def consume_all_message_as_balance(self, topicName):
+        """
+        使用balance consumer去消费kafka，因为分区是自动指定，无法指定偏移量进行消费，只能消费所有或消费指定次数
+        :return:
+        """
+        topic = self.get_topics()[topicName]
+        # managed=True 设置后，使用新式reblance分区方法，不需要使用zk，而False是通过zk来实现reblance的需要使用zk
+        consumer = topic.get_balanced_consumer(b"consumer_group_balanced", managed=True)
+        partitions = topic.partitions
+        print("分区 {}".format(partitions))
+        earliest_offsets = topic.earliest_available_offsets()
+        print("最早可用offset {}".format(earliest_offsets))
+        last_offset = topic.latest_available_offsets()
+        print("最近可用offset {}".format(last_offset))
+        latest_available_offset = last_offset[0][0][0]
+        print("最近位移数: %s" % latest_available_offset)
+        offset = consumer.held_offsets
+        print("当前消费者分区offset情况{}".format(offset))
+        while True:
+            current_offset = consumer.held_offsets[0]  # 因为helo_offsets的值是字典{0: 0}，所以取key为0的值就是当前位移
+            print("current_offset: %s" % current_offset)
+            if current_offset + 2 <= latest_available_offset:
+                try:
+                    msg = consumer.consume()
+                    print("消费的消息是 :{}".format(msg.value.decode()))
+                    offset = consumer.held_offsets
+                    print("{}, 当前消费者分区offset情况{}".format(msg.value.decode(), offset))
+                except Exception as e:
+                    print("error occurs in consume_as_balance, error: {} ".format(e))
+            else:
+                break
+
 
 if __name__ == '__main__':
-    host = "172.17.9.151:9092"
+    # host = "172.17.9.151:9092"
+    host = "172.17.9.155:9092"
     kfkInstance = TcKafka(host)
     topic = 'xiaxxtopic6'
     # 测试获取所有topic
-    # print(kfkInstance.get_topics())
+    print(kfkInstance.get_topics())
     # 测试创建topic
-    # kfkInstance.create_topic(topic)
+    kfkInstance.create_topic(topic)
     # 测试获取topic的分区
-    # kfkInstance.get_topic_partitions(topic)
+    kfkInstance.get_topic_partitions(topic)
     # 测试查看topic可用的偏移量
-    # kfkInstance.get_topic_available_offset(topic)
+    kfkInstance.get_topic_available_offset(topic)
     # 测试生产者发送消息
-    kfkInstance.procude_message(topic, "test message1802")
-    # 测试simple consume
-    # kfkInstance.consume_as_simple(topic)
-    # 测试balance consume
-    # kfkInstance.consume_as_balance(topic,3)
+    endStr = time.strftime("%Y-%m-%d-%H-%M")
+    kfkInstance.procude_message(topic, "test message%s" % endStr)
     # 测试指定分区写消息
-    # kfkInstance.procude_message_to_partition(topic, "test message1738", 0)
-    # 读取消息
-    # kfkInstance.consume_from_offset_as_simple(topic,0,29)
-    # kfkInstance.consume_from_offset_as_simple(topic)
-    # kfkInstance.consume_last_message_as_simple(topic)
-    # kfkInstance.procude_message_to_partition(topic, 0)
+    kfkInstance.procude_message_to_partition(topic, "test message1738", 0)
+    # 以simple方式从0号分区的某个位移开始消费消息
+    kfkInstance.consume_from_offset_as_simple(topic,0,29)
+    # 以simple方式消费分区号为0的最后一条消息
+    kfkInstance.consume_last_message_as_simple(topic,0)
     # 测试以balance方式消费消息
-    kfkInstance.consume_as_balance(topic)
+    kfkInstance.consume_all_message_as_balance(topic)
+    # 以balance方式消费一次消条
+    kfkInstance.consume_one_message_as_balance(topic)
+    # 测试以balance方式消费n条消息
+    kfkInstance.consume_n_messages_as_balance(topic, 30)
+
